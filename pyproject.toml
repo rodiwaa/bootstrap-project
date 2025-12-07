@@ -1,5 +1,9 @@
+[build-system]
+requires = ["setuptools>=75.0.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "rag-sample-langgraph"
+name = "site_bot_opik"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -15,3 +19,10 @@ dependencies = [
     "opik>=1.9.37",
     "pypdf>=6.4.0",
 ]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["site_bot_opik*"]
