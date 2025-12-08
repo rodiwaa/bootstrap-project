@@ -9,26 +9,50 @@ from langgraph.prebuilt import tools_condition
 from typing import Literal
 from langchain.chat_models import init_chat_model
 from langchain_community.document_loaders import PyPDFLoader
+import json
 
-FILE_PATH_RODI = "./.data/about_rodi.pdf"
 
 response_model = init_chat_model("gpt-4o", temperature=0)
 grader_model = init_chat_model("gpt-4o", temperature=0)
 
-print(f"FILE_PATH_RODI: {FILE_PATH_RODI}")
-docs = []
-def load_sources(state: MessagesState):
-  try:
-    loader = PyPDFLoader(
-      file_path=FILE_PATH_RODI,
-      mode="page"
-    )
-    docs_lazy = loader.lazy_load()
-    for doc in docs_lazy:
-      docs.append(doc)
-      print(f"docs - {docs}")
-  except Exception as e:
+# Loading Docs at module level
+# TODO: FIXME: clean on refactor
+FILE_PATH_RODI = "./.data/about_rodi.pdf"
+
+try:
+    loader = PyPDFLoader(file_path=FILE_PATH_RODI, mode="page")
+    docs = list(loader.lazy_load())  # Load immediately
+except Exception as e:
     print(f"Error: loading PDF Failed {e}")
+    docs = []
+
+# create vectorstore with populated docs
+text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
+    chunk_size=1000, chunk_overlap=100
+)
+doc_splits = text_splitter.split_documents(docs)
+vectorstore = InMemoryVectorStore.from_documents(
+    documents=doc_splits, embedding=OpenAIEmbeddings()
+)
+retriever = vectorstore.as_retriever()
+retriever_tool = create_retriever_tool(
+    retriever,
+    "retrieve_blog_posts",
+    "Search and return information about Rohit Diwakar.",
+)
+
+def load_sources(state: MessagesState):
+  # try:
+  #   loader = PyPDFLoader(
+  #     file_path=FILE_PATH_RODI,
+  #     mode="page"
+  #   )
+  #   docs_lazy = loader.lazy_load()
+  #   for doc in docs_lazy:
+  #     docs.append(doc)
+  #     print(f"docs - {docs}")
+  # except Exception as e:
+  #   print(f"Error: loading PDF Failed {e}")
     
   return { "sources": True }
 
@@ -58,16 +82,6 @@ GRADE_PROMPT = (
     "Give a binary score 'yes' or 'no' score to indicate whether the document is relevant to the question."
 )
 
-text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
-    chunk_size=1000, chunk_overlap=100
-)
-doc_splits = text_splitter.split_documents(docs)
-
-vectorstore = InMemoryVectorStore.from_documents(
-    documents=doc_splits, embedding=OpenAIEmbeddings()
-)
-
-retriever = vectorstore.as_retriever()
 
 # retriever tool
 retriever_tool = create_retriever_tool(
@@ -155,7 +169,11 @@ def grade_documents(
     """Determine whether the retrieved documents are relevant to the question."""
     question = state["messages"][0].content
     context = state["messages"][-1].content
+    print(f"\nSTATE: {state}")
+    # print(f"STATE \n: {json.dumps(state, indent=2)}")
 
+    print("\ngrade_documents\n")
+    print(f"context: {context}")
     prompt = GRADE_PROMPT.format(question=question, context=context)
     response = (
         grader_model

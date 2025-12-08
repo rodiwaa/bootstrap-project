@@ -27,7 +27,7 @@ USER_QUERY_PROJECT = f"{QUERIES_ROHIT['PROJECT']}"
 USER_QUERY_WORK_TIMELINE = f"{QUERIES_ROHIT['WORK_TIMELINE']}"
 
 QUERIES = [USER_QUERY, USER_QUERY_PROJECT_AI, USER_QUERY_WORK_EXP, USER_QUERY_PROJECT, USER_QUERY_WORK_TIMELINE]
-RANDOM_SELECTED_QUERY = random.choice(QUERIES)
+RANDOM_SELECTED_QUERY = "who is rohit?" #random.choice(QUERIES)
 print(f"RANDOM_SELECTED_QUERY: {RANDOM_SELECTED_QUERY}")
 # PROJECT_AI
 # WORK_EXP
@@ -74,7 +74,7 @@ docs = []
 docs_lazy = loader.lazy_load()
 for doc in docs_lazy:
   docs.append(doc)
-  print(f"docs - {docs}")
+  # print(f"docs - {docs}")
 # print(docs[0][0].page_content.strip()[:1000])
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -86,11 +86,12 @@ text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
 )
 doc_splits = text_splitter.split_documents(docs)
 
-print(doc_splits[0].page_content.strip())
+# print(f"doc_splits: {doc_splits[0].page_content.strip()}")
 
 from langchain_core.vectorstores import InMemoryVectorStore
 from langchain_openai import OpenAIEmbeddings
 
+print(f"\nvectorstore")
 vectorstore = InMemoryVectorStore.from_documents(
     documents=doc_splits, embedding=OpenAIEmbeddings()
 )
@@ -104,7 +105,7 @@ retriever_tool = create_retriever_tool(
     "Search and return information about Rohit Diwakar.",
 )
 
-retriever_tool.invoke({"query": "what does rohit do?"})
+# retriever_tool.invoke({"query": "what does rohit do?"})
 
 
 from langgraph.graph import MessagesState
@@ -184,57 +185,57 @@ def grade_documents(
     
 from langchain_core.messages import convert_to_messages, ToolMessage
 
-input = {
-    "messages": convert_to_messages(
-        [
-            {
-                "role": "user",
-                "content": "What does Lilian Weng say about types of reward hacking?",
-            },
-            {
-                "role": "assistant",
-                "content": "",
-                "tool_calls": [
-                    {
-                        "id": "1",
-                        "name": "retrieve_blog_posts",
-                        "args": {"query": "types of reward hacking"},
-                    }
-                ],
-            },
-            {"role": "tool", "content": "meow", "tool_call_id": "1"},
-        ]
-    )
-}
+# input = {
+#     "messages": convert_to_messages(
+#         [
+#             {
+#                 "role": "user",
+#                 "content": "What does Lilian Weng say about types of reward hacking?",
+#             },
+#             {
+#                 "role": "assistant",
+#                 "content": "",
+#                 "tool_calls": [
+#                     {
+#                         "id": "1",
+#                         "name": "retrieve_blog_posts",
+#                         "args": {"query": "types of reward hacking"},
+#                     }
+#                 ],
+#             },
+#             {"role": "tool", "content": "meow", "tool_call_id": "1"},
+#         ]
+#     )
+# }
 # grade_documents(input) #FIXME: not calling outside LG
 
 
-input = {
-    "messages": convert_to_messages(
-        [
-            {
-                "role": "user",
-                "content": "What does Lilian Weng say about types of reward hacking?",
-            },
-            {
-                "role": "assistant",
-                "content": "",
-                "tool_calls": [
-                    {
-                        "id": "1",
-                        "name": "retrieve_blog_posts",
-                        "args": {"query": "types of reward hacking"},
-                    }
-                ],
-            },
-            {
-                "role": "tool",
-                "content": "reward hacking can be categorized into two types: environment or goal misspecification, and reward tampering",
-                "tool_call_id": "1",
-            },
-        ]
-    )
-}
+# input = {
+#     "messages": convert_to_messages(
+#         [
+#             {
+#                 "role": "user",
+#                 "content": "What does Lilian Weng say about types of reward hacking?",
+#             },
+#             {
+#                 "role": "assistant",
+#                 "content": "",
+#                 "tool_calls": [
+#                     {
+#                         "id": "1",
+#                         "name": "retrieve_blog_posts",
+#                         "args": {"query": "types of reward hacking"},
+#                     }
+#                 ],
+#             },
+#             {
+#                 "role": "tool",
+#                 "content": "reward hacking can be categorized into two types: environment or goal misspecification, and reward tampering",
+#                 "tool_call_id": "1",
+#             },
+#         ]
+#     )
+# }
 # grade_documents(input) #FIXME: not calling outside LG
 
 from langchain.messages import HumanMessage
@@ -257,28 +258,28 @@ def rewrite_question(state: MessagesState):
     response = response_model.invoke([{"role": "user", "content": prompt}])
     return {"messages": [HumanMessage(content=response.content)]}
 
-input = {
-    "messages": convert_to_messages(
-        [
-            {
-                "role": "user",
-                "content": "What does Lilian Weng say about types of reward hacking?",
-            },
-            {
-                "role": "assistant",
-                "content": "",
-                "tool_calls": [
-                    {
-                        "id": "1",
-                        "name": "retrieve_blog_posts",
-                        "args": {"query": "types of reward hacking"},
-                    }
-                ],
-            },
-            {"role": "tool", "content": "meow", "tool_call_id": "1"},
-        ]
-    )
-}
+# input = {
+#     "messages": convert_to_messages(
+#         [
+#             {
+#                 "role": "user",
+#                 "content": "What does Lilian Weng say about types of reward hacking?",
+#             },
+#             {
+#                 "role": "assistant",
+#                 "content": "",
+#                 "tool_calls": [
+#                     {
+#                         "id": "1",
+#                         "name": "retrieve_blog_posts",
+#                         "args": {"query": "types of reward hacking"},
+#                     }
+#                 ],
+#             },
+#             {"role": "tool", "content": "meow", "tool_call_id": "1"},
+#         ]
+#     )
+# }
 
 # response = rewrite_question(input)
 # print(response["messages"][-1].content)
@@ -304,8 +305,9 @@ def generate_answer(state: MessagesState):
     if trace is not None:
         try:
             print(f"trace? {trace}")
-            feedback_scores = eval_llm(question, response)
-            opik_context.update_current_trace(feedback_scores=feedback_scores)
+            #FIXME: TODO: uncomment this for traces; disabled since it was taking too long
+            # feedback_scores = eval_llm(question, response)
+            # opik_context.update_current_trace(feedback_scores=feedback_scores)
             print(f"trace updated")
         except Exception as e:
             print(f'Feedback Score failed: {e}') 
