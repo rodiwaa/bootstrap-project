@@ -1,0 +1,27 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY pyproject.toml /app/
+
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir \
+    chainlit \
+    langgraph \
+    langchain \
+    langchain_classic \
+    langchain_openai \
+    langchain_text_splitters \
+    langchain_core \
+    langchain_community \
+    opik \
+    pypdf
+
+COPY src/ /app/src/
+COPY chainlit.md /app/.chainlit/
+
+ENV PYTHONPATH="/app/src:${PYTHONPATH}"
+WORKDIR /app/src
+
+EXPOSE 8000
+CMD ["chainlit", "run", "site_bot_opik/interface/chainlit.py", "--host", "0.0.0.0", "--port", "8000"]

@@ -1,0 +1,9 @@
+chainlit
+langgraph
+langchain
+langchain_classic
+langchain_openai
+langchain_text_splitters
+langchain_core
+langchain_community
+opik

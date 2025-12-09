@@ -1,0 +1,7 @@
+FROM python:3.11-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install langgraph langchain-openai langchain-community pypdf opik
+COPY src/ ./src/
+COPY .data/ ./.data/
+CMD ["python", "-m", "uvicorn", "src.site_bot_opik.graph.api:app", "--host", "0.0.0.0", "--port", "8001"]

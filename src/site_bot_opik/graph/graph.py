@@ -17,7 +17,8 @@ grader_model = init_chat_model("gpt-4o", temperature=0)
 
 # Loading Docs at module level
 # TODO: FIXME: clean on refactor
-FILE_PATH_RODI = "./.data/about_rodi.pdf"
+# FILE_PATH_RODI = "./.data/about_rodi.pdf"
+FILE_PATH_RODI = "/app/src/about_rodi.pdf"
 
 try:
     loader = PyPDFLoader(file_path=FILE_PATH_RODI, mode="page")
