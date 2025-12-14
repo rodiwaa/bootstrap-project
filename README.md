@@ -1,8 +1,4 @@
-# Bootstrap Project
-
-The hardest part of starting a new project is having to setup basic infra from scratch all over again.
-
-Since I had similar projects in the pipeline, me thoughts its best to bootstrap it with code-template that's already worked before.
+# langgraph-chainlit-docker-nginx
 
 Note - Unless you're using the same tech stack, you won't find this one very useful. But if you're new, you can and should use this tech stack to get started.
 Inspiration for this code base has been - 
