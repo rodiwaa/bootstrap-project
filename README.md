@@ -30,7 +30,7 @@ https://github.com/neural-maze/ava-whatsapp-agent-course
   - TIP - Use cloud providers when starting out, Qdrant, Pinecone, Weaviate
 
 ## Projects Structure
-![Project Structure](./assets/images/screenshots/proj-strucutre.png)
+![Project Structure](./assets/images/proj-strucutre.png)
 ### Important Note On Module Imports
 Project uses absolute paths to import modules (import graph module to chainlit, etc) which got pretty tricky for me, esp when dockerising/ deploying the project. I had to setup a few hacks, like building using setup tools in pyproject.toml. using `__init__` files and building from root folder. Make sure you understand this well.
 
