@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY pyproject.toml /app/
 
+# FIXME: TODO:
+# put all this in requirements.txt
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir \
     chainlit \
@@ -17,8 +19,10 @@ RUN pip install --no-cache-dir --upgrade pip && \
     opik \
     pypdf
 
+    
 COPY src/ /app/src/
 COPY chainlit.md /app/.chainlit/
+COPY .chainlit /app/src/.chainlit
 
 ENV PYTHONPATH="/app/src:${PYTHONPATH}"
 WORKDIR /app/src

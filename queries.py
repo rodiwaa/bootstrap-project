@@ -15,6 +15,7 @@ QUERIES_ROHIT = {
 }
 
 # Golden answers provide the ground-truth snippets used when logging Opik metrics.
+# was using this for evaluation testing. not relevant to project now.
 EXPECTED_ANSWERS = {
   "REWARD_HACKING": (
     "Lilian Weng splits reward hacking into two broad classes: misspecified goals or "

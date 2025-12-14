@@ -1,3 +1,4 @@
+# FIXME: does not work
 start-venv:
 	source ./venv/bin/activate
 
@@ -12,3 +13,11 @@ start-chainlit:
 
 start-evaluate:
 	python src/evaluations/evaluate.py
+
+
+docker-compose-build:
+	docker compose build --no-cache
+
+docker-compose-up:
+	docker compose up
+	

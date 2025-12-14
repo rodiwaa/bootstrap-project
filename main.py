@@ -1,3 +1,7 @@
+######
+# this doc readies original source PDF doc. PDF --> embedding --> vector store
+# chainlit/RAG backend answers queries from this PDF.
+######
 from dotenv import load_dotenv
 import os
 import random
@@ -6,7 +10,7 @@ from opik.integrations.langchain import OpikTracer
 from queries import QUERIES_ROHIT, QUERIES_BLOG, EXPECTED_ANSWERS
 from opik.evaluation.metrics import (
     LLMJuriesJudge,
-    # Hallucination,
+    # Hallucination, # taking too much time. removed.
     ComplianceRiskJudge,
     DialogueHelpfulnessJudge,
     ContextPrecision,
@@ -17,6 +21,7 @@ from opik import opik_context
 print("setting env vars")
 load_dotenv()
 
+# FIXME: TODO: get this from s3 w IAM
 FILE_PATH_RODI = "./.data/about_rodi.pdf"
 
 # USER_QUERY_WHO = f"{QUERIES_ROHIT['WHO']} {QUERIES_ROHIT['WHAT']}"
