@@ -6,7 +6,18 @@ https://github.com/neural-maze/ava-whatsapp-agent-course
 
 ## How To Use This Repo
 - Clone/ fork this repo.
-- Activate venv.
+- Setup dev env
+  - `uv sync` - installs dependencies, setsup venv
+  - create `.env` file in root for API keys
+    - refer .env-example
+    - at most setup, OPENAI_API_KEY for this to work
+    - copy source file for RAG
+      - i used `about_rodi.pdf` in .data folder
+      - feel free to use your own.
+      - update file path accordingly.
+      - update queries accordingly.
+  - Activate venv.
+    - `source .venv/bin/activate`
 - Test if it works.
   - Main things you wanna check are
     - running  `main.py` (RAG backend)

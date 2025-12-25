@@ -9,10 +9,10 @@ copy-data-sources:
 copy-env-files:
 	cp ~/.env/.env .
 
-start-server:
+start-rag-server:
 	python main.py
 
-start-chainlit:
+start-chainlit-server:
 	chainlit run src/site_bot_opik/interface/chainlit.py
 
 start-evaluate:
