@@ -5,6 +5,16 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "site-bot-opik"
 version = "0.1.0"
+dependencies = [
+    "chainlit>=2.9.4",
+    "langchain>=1.2.0",
+    "langchain-community>=0.4.1",
+    "langchain-core>=1.2.5",
+    "langchain-openai>=1.1.6",
+    "opik>=1.9.66",
+    "pypdf>=6.5.0",
+    "python-dotenv>=1.2.1",
+]
 
 [tool.setuptools]
 package-dir = {"" = "src"}

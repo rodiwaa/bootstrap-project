@@ -3,7 +3,11 @@ start-venv:
 	source ./venv/bin/activate
 
 copy-data-sources:
+	mkdir .data
 	cp ~/Downloads/about_rodi.* ./.data
+
+copy-env-files:
+	cp ~/.env/.env .
 
 start-server:
 	python main.py

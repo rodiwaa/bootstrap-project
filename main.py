@@ -76,11 +76,17 @@ except Exception as e:
   print(f"Error: loading PDF Failed {e}")
 
 docs = []
-docs_lazy = loader.lazy_load()
-for doc in docs_lazy:
-  docs.append(doc)
-  # print(f"docs - {docs}")
-# print(docs[0][0].page_content.strip()[:1000])
+try:
+
+  docs_lazy = loader.lazy_load()
+  for doc in docs_lazy:
+    docs.append(doc)
+    # print(f"docs - {docs}")
+    # print(docs[0][0].page_content.strip()[:1000])
+except Exception as e:
+  print(f"loader error")
+  print(f"check if pypdf installed")
+  print(f"check if source doc (about_rodi.*) loaded in .data folder")
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
