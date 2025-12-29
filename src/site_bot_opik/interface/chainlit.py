@@ -12,20 +12,20 @@ async def on_message(message: cl.Message):
         "callbacks": [opik_tracer]
     }
     
-    final_response = f"You asked: {message.content}\nIntegrate w your RAG response here."
+    # final_response = f"You asked: {message.content}\nIntegrate w your RAG response here."
     # TODO: FIXME: sample code to build out your graph invocation stream
-    # async for chunk in graph_builder.astream(
-    #   {"messages": [{"role": "user", "content": content}]}, config=opik_config):
-    #   print(f"chunk, \n{chunk}")
+    async for chunk in graph_builder.astream(
+      {"messages": [{"role": "user", "content": content}]}, config=opik_config):
+      print(f"chunk, \n{chunk}")
     
-    #   # Each chunk is {node_name: node_output}
-    #   for node_name, node_output in chunk.items():
-    #       print(f"33333 - Node: {node_name}")
+      # Each chunk is {node_name: node_output}
+      for node_name, node_output in chunk.items():
+          print(f"33333 - Node: {node_name}")
           
-    #       # Check if this node produced messages
-    #       if isinstance(node_output, dict) and "messages" in node_output:
-    #           final_response = node_output["messages"][-1].content
-    #           print(f"Got response: {final_response[:100]}...")
+          # Check if this node produced messages
+          if isinstance(node_output, dict) and "messages" in node_output:
+              final_response = node_output["messages"][-1].content
+              print(f"Got response: {final_response[:100]}...")
       
     await cl.Message(content=final_response).send()
 
