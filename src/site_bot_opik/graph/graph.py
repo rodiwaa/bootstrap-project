@@ -9,8 +9,18 @@ from langgraph.prebuilt import tools_condition
 from typing import Literal
 from langchain.chat_models import init_chat_model
 from langchain_community.document_loaders import PyPDFLoader
+from site_bot_opik.memory.memory import init_llm_cache
 import json
 
+# init llm cache before running graph/ llm calls.
+try:
+  print(f"init_llm_cache")
+  init_llm_cache()
+except Exception as e:
+  print('ERROR during init_llm_cache')
+  print(e)
+
+print('continue graph.py')
 
 response_model = init_chat_model("gpt-4o", temperature=0)
 grader_model = init_chat_model("gpt-4o", temperature=0)
