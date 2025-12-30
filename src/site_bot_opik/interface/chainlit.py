@@ -15,19 +15,27 @@ async def on_message(message: cl.Message):
     # you'll need to setup your opik envs in .env file. see docs.
     opik_tracer = OpikTracer(graph=graph_builder.get_graph(xray=True))
     thread_id = cl.user_session.get("session_id")
+    print(f"thread_id {thread_id}")
     opik_config = {
         "callbacks": [opik_tracer],
         "configurable": {"thread_id": thread_id}
       },
-    
-    thread_id="random convo 123"
+
+    # FIXME: UUIDs don't work with threading, needs to be a string
+    # this object works for both langsmith, opik    
+    # FIXME: intermittently does not show up on LS, thread_string format issue?
     opik_thread_config = {
+      "configurable": {"thread_id": thread_id},
       "callbacks": [OpikTracer(project_name="langgraph-conversations",graph=graph_builder.get_graph(xray=True))],
-      "configurable": {"thread_id": thread_id}
+      "metadata": {
+        "thread_id": f"tracing_{thread_id}", # stringify thread_id to make it work
+        "session_id": f"tracing_{thread_id}" # stringify thread_id to make it work
+      }
     }
     
     # final_response = f"You asked: {message.content}\nIntegrate w your RAG response here."
     # TODO: FIXME: sample code to build out your graph invocation stream
+    # TODO: does this work for both opik, LS?
     async for chunk in graph_builder.astream(
       # {"messages": [{"role": "user", "content": content}]}, config=opik_config):
       {"messages": [{"role": "user", "content": content}]}, 
