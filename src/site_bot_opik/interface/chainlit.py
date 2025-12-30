@@ -1,6 +1,12 @@
 import chainlit as cl
 from site_bot_opik.graph.graph import graph_builder
 from opik.integrations.langchain import OpikTracer
+import uuid
+
+@cl.on_chat_start
+async def on_chat_start():
+  thread_id = uuid.uuid4()
+  cl.user_session.set("session_id", thread_id)
 
 @cl.on_message
 async def on_message(message: cl.Message):
@@ -8,14 +14,27 @@ async def on_message(message: cl.Message):
     # opik config done. use in callback for graph invocation. you're set.
     # you'll need to setup your opik envs in .env file. see docs.
     opik_tracer = OpikTracer(graph=graph_builder.get_graph(xray=True))
+    thread_id = cl.user_session.get("session_id")
     opik_config = {
-        "callbacks": [opik_tracer]
+        "callbacks": [opik_tracer],
+        "configurable": {"thread_id": thread_id}
+      },
+    
+    thread_id="random convo 123"
+    opik_thread_config = {
+      "callbacks": [OpikTracer(project_name="langgraph-conversations",graph=graph_builder.get_graph(xray=True))],
+      "configurable": {"thread_id": thread_id}
     }
     
     # final_response = f"You asked: {message.content}\nIntegrate w your RAG response here."
     # TODO: FIXME: sample code to build out your graph invocation stream
     async for chunk in graph_builder.astream(
-      {"messages": [{"role": "user", "content": content}]}, config=opik_config):
+      # {"messages": [{"role": "user", "content": content}]}, config=opik_config):
+      {"messages": [{"role": "user", "content": content}]}, 
+      # {"configurable": {"thread_id": thread_id}},
+      config=opik_thread_config
+      
+      ):
       print(f"chunk, \n{chunk}")
     
       # Each chunk is {node_name: node_output}
