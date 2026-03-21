@@ -18,7 +18,6 @@ start-chainlit:
 start-evaluate:
 	python src/evaluations/evaluate.py
 
-
 docker-compose-build:
 	docker compose build --no-cache
 

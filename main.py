@@ -41,7 +41,7 @@ print(f"RANDOM_SELECTED_QUERY: {RANDOM_SELECTED_QUERY}")
 
 print(f"USER_QUERY: {USER_QUERY}")
 
-# print(os.getenv('OPENAI_API_KEY'))
+print(f"OPENAI_API_KEY": {os.getenv('OPENAI_API_KEY')})
 print(f"LANGSMITH_TRACING: {os.getenv('LANGSMITH_TRACING')}")
 print(f"LANGSMITH_PROJECT: {os.getenv('LANGSMITH_PROJECT')}")
 print(f"OPIK_PROJECT_NAME: {os.getenv('OPIK_PROJECT_NAME')}")
